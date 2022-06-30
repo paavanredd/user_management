@@ -40,6 +40,18 @@ const userSchema = new mongoose.Schema({
     }
 })
 
+userSchema.statics.findByCredentials = async (email , password) => {
+    const user = await User.findOne({ email })
+    if(!user) {
+        throw new Error("Unable to login with creds")
+    }
+    const isPasswordMatch = await bcrypt.compare(password, user.password)
+    if(!isPasswordMatch) {
+        throw new Error("Unable to login with creds")
+    }
+    return user
+}
+
 //defining model for user schema
 const User = mongoose.model('User', userSchema)
 

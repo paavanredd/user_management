@@ -16,6 +16,17 @@ router.post('/create-user', async (request,response) => {
     }
 })
 
+router.post('/user/login', async(request, response) => {
+
+    try{
+        const user = await userModel.findByCredentials(request.body.email, request.body.password)
+        console.log(user)
+        response.status(200).send(user)
+    }
+    catch(error) {
+        response.status(400).send(error)
+    }
+})
 
 router.get('/getusers', async (request, response) => {
 
@@ -26,7 +37,6 @@ router.get('/getusers', async (request, response) => {
         response.status(404).send(e)
     }
 })
-
 
 router.get('/getoneuser/:name', async (request, response) => {
 
@@ -42,7 +52,6 @@ router.get('/getoneuser/:name', async (request, response) => {
         response.status(500).send(e)
     }
 })
-
 
 router.patch('/updateuser/:name' , async(request, response) => {
 
@@ -69,7 +78,6 @@ router.patch('/updateuser/:name' , async(request, response) => {
         response.status(400).send(e)
     }
 })
-
 
 router.delete('/deleteuser', async(request, response) => {
 
